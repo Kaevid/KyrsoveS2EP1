@@ -7,8 +7,8 @@ namespace KyrsoveS2EP1
 {
     class Program
     {
-        static int UserID = 0;
-        static int GameID = 0;
+        static int UserID;
+        static int GameID;
         static void Main(string[] args)
         {
             Save save = new Save();
@@ -16,14 +16,15 @@ namespace KyrsoveS2EP1
             Account Player2 = new Account();
 
             JsonTextReader readingFile = new JsonTextReader(new StreamReader("C:\\Acc.json"));
-            JsonSerializer serialize = new JsonSerializer(); 
+            JsonSerializer serialize = new JsonSerializer();
             save.Accounts = serialize.Deserialize<List<Account>>(readingFile);
             readingFile.Close();
-            //readingFile = new JsonTextReader(new StreamReader("C:\\Game.json"));
-            //save.Accounts = serialize.Deserialize<List<Account>>(readingFile);
-            //readingFile.Close();
+            readingFile = new JsonTextReader(new StreamReader("C:\\Game.json"));
+            save.GameList = serialize.Deserialize<List<GameStats>>(readingFile);
+            readingFile.Close();
 
             UserID = save.Accounts.Count;
+            GameID = save.GameList.Count;
 
             Console.WriteLine("F1-Вiйти в акаунт першого гравця");
             Console.WriteLine("F2-Створити акаунт для першого гравця");
@@ -142,6 +143,7 @@ namespace KyrsoveS2EP1
                             Console.WriteLine("Таке iм'я гравця вже є.");
                             Console.Write("\nВведiть iнше iм'я гравця: ");
                             name2 = Console.ReadLine();
+                            i = 0;
                         }
                     }
                     Console.Write("Введiть пароль: ");
@@ -161,25 +163,40 @@ namespace KyrsoveS2EP1
             Console.WriteLine("F1-Грати в Хрестики Нулики");
             Console.WriteLine("F2-Статистика першого гравця");
             Console.WriteLine("F3-Статистика другого гравця");
-            Console.WriteLine("F4-Зберегти i вийти");
+            Console.WriteLine("F4-Вивисти список профiлiв");
+            Console.WriteLine("F5-Зберегти i вийти");
             key = Console.ReadKey().Key;
             switch (key) {
                 case ConsoleKey.F1:
                     Game game = new Game();
                     GameID++;
-                    save.GameList.Add(game.StartGame(Player1, Player2, 25, GameID));
+                    save.GameList.Add(game.StartGame(Player1, Player2, 25, GameID, save));
                     goto menu;
                 case ConsoleKey.F2:
-
+                    Console.Clear();
+                    Console.WriteLine($"Статистика {(Player1.UserName)}: ");
+                    save.PrintGameList(Player1);
+                    Console.Write("Натиснiть Любу кнопку щоб продовжити");
+                    Console.ReadKey();
                     goto menu;
                 case ConsoleKey.F3:
-
+                    Console.Clear();
+                    Console.WriteLine($"Статистика {(Player2.UserName)}: ");
+                    save.PrintGameList(Player2);
+                    Console.Write("Натиснiть Любу кнопку щоб продовжити");
+                    Console.ReadKey();
                     goto menu;
                 case ConsoleKey.F4:
+                    save.PrintAccountList();
+                    Console.Write("Натиснiть Любу кнопку щоб продовжити");
+                    Console.ReadKey();
+                    goto menu;
+                case ConsoleKey.F5:
+                    
                     File.WriteAllText("C:\\Acc.json", string.Empty);
                     File.AppendAllText("C:\\Acc.json", JsonConvert.SerializeObject(save.Accounts));
-                    //File.WriteAllText("C:\\Gamejson", string.Empty);
-                    //File.AppendAllText("C:\\Game.json", JsonConvert.SerializeObject(save.GameList));
+                    File.WriteAllText("C:\\Game.json", string.Empty);
+                    File.AppendAllText("C:\\Game.json", JsonConvert.SerializeObject(save.GameList));
                     break;
                 default:
                     Console.WriteLine("Не та кнопка");

@@ -6,15 +6,13 @@ namespace KyrsoveS2EP1
 {
     class GameStats
     {
-        //Змінна в якій зберігається хто виграв true-хрестики, false-нолики
-        public bool IsP1 { get; set; }
+        public Winner IsP1 { get; set; }
         public string PlaerX { get; set; }
         public string PlaerO { get; set; }
-        //За кого грав гравець хрестики чи нулики
         public int GameID { get; set; }
         public int Rating { get; set; }
 
-        public GameStats(bool isp1, string x, string o, int gameID, int rating)
+        public GameStats(Winner isp1, string x, string o, int gameID, int rating)
         {
             IsP1 = isp1;
             PlaerX = x;
