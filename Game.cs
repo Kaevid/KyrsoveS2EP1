@@ -4,12 +4,7 @@ using System.Text;
 
 namespace KyrsoveS2EP1
 {
-    public enum Winner
-    {
-        WinX,
-        WinO,
-        Nichua
-    }
+
     class Game
     {
         Save save = new Save();
@@ -211,7 +206,7 @@ namespace KyrsoveS2EP1
             }
             else
             {
-                Console.WriteLine("Нема такоi комiрки");
+                Console.WriteLine("\nНема такоi комiрки");
                 goto turnN;
             }
             Console.WriteLine();

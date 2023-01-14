@@ -4,6 +4,12 @@ using System.Text;
 
 namespace KyrsoveS2EP1
 {
+    public enum Winner
+    {
+        WinX,
+        WinO,
+        Nichua
+    }
     class GameStats
     {
         public Winner IsP1 { get; set; }

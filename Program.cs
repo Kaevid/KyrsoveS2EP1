@@ -34,7 +34,7 @@ namespace KyrsoveS2EP1
             switch (key)
             {
                 case ConsoleKey.F1:
-                    Console.WriteLine("\nВхiд в акаунт другого гравця: ");
+                    Console.WriteLine("\nВхiд в акаунт першого гравця: ");
                     Console.Write("Введiть iм'я гравця: ");
                     firstname = Console.ReadLine();
                     for (int i = 0; i < save.Accounts.Count; i++)
